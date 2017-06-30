@@ -27,8 +27,8 @@ loss = 'categorical_crossentropy'
 optimizer = 'rmsprop'
 
 # Training parameters
-batch_size = 50
-num_epoch = 10
+batch_size = 500
+num_epoch = 100
 validation_split = 0.0
 shuffle = True
 
