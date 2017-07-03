@@ -11,7 +11,7 @@ def get_corpus_path(path):
 
 
 def get_model_path(path):
-    return os.path.join(config.MODOL_DATA_PATH, path)
+    return os.path.join(config.MODEL_PATH, path)
 
 
 def get_w2v_model_path(path):
