@@ -1,7 +1,18 @@
 import xlrd
 import utils
 
+
 def extra_split_text(pos_f, neu_f, neg_f, wb_name, sh_index, label_list):
+    """
+
+    :param pos_f:
+    :param neu_f:
+    :param neg_f:
+    :param wb_name:
+    :param sh_index:
+    :param label_list:
+    :return:
+    """
     wb = xlrd.open_workbook(utils.get_pre_corpus_path(wb_name))
     sh = wb.sheet_by_index(sh_index)
     num_pos = 0
@@ -24,9 +35,16 @@ def extra_split_text(pos_f, neu_f, neg_f, wb_name, sh_index, label_list):
     print('num_neu:', num_neu)
     print('num_neg', num_neg)
 
+
 def char_num(char0):
-    dict0 = {chr(i+97): i for i in range(26)}
+    """
+
+    :param char0:
+    :return:
+    """
+    dict0 = {chr(i + 97): i for i in range(26)}
     return dict0[char0]
+
 
 if __name__ == '__main__':
     pos_f = open(utils.get_corpus_path('multi_pos.txt'), 'w')

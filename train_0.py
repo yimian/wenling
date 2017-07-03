@@ -1,9 +1,9 @@
 import numpy
-from keras.models import Sequential,Model
+from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Embedding
-from keras.layers import LSTM,Bidirectional
-from keras.preprocessing import text,sequence
+from keras.layers import LSTM, Bidirectional
+from keras.preprocessing import text, sequence
 import time
 import gensim
 import jieba
@@ -32,8 +32,8 @@ num_epoch = 100
 validation_split = 0.0
 shuffle = True
 
-def traning_save(model_name, pos_f_name, neg_f_name, neu_f_name):
 
+def training_save(model_name, pos_f_name, neg_f_name, neu_f_name):
     # Prepare the dataset
     l1 = []
     l2 = []
@@ -71,7 +71,7 @@ def traning_save(model_name, pos_f_name, neg_f_name, neu_f_name):
     tk.fit_on_texts(x)
     x = tk.texts_to_sequences(x)
     word_index = tk.word_index
-    x = sequence.pad_sequences(x,maxlen=max_len)
+    x = sequence.pad_sequences(x, maxlen=max_len)
 
     # print(x[0])
     # print(len(x[0]))
@@ -106,8 +106,9 @@ def traning_save(model_name, pos_f_name, neg_f_name, neu_f_name):
     model.save(filepath=utils.get_model_path(model_name))
     print('model was saved to ' + utils.get_model_path(model_name))
 
+
 if __name__ == '__main__':
     start_time = time.time()
-    traning_save('wen0_multi.model', 'multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt')
+    training_save('wen0_multi.model', 'multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt')
     stop_time = time.time()
     print('Time used:', str(stop_time - start_time))

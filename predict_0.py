@@ -1,15 +1,13 @@
 import keras
-from keras.preprocessing import text,sequence
+from keras.preprocessing import text, sequence
 import jieba
 import numpy as np
-import xlrd
 import utils
 
 # Input parameters
 max_features = 5000
 max_len = 200
 embedding_size = 400
-
 
 l1 = []
 l2 = []
@@ -21,7 +19,6 @@ neg_lines = open(utils.get_corpus_path(neg_f_name)).readlines()
 pos_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), pos_lines))
 neu_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neu_lines))
 neg_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neg_lines))
-
 
 # append pos and neg and neu
 for i in range(len(pos_cut_lines)):
@@ -48,7 +45,13 @@ x = tk.texts_to_sequences(x)
 word_index = tk.word_index
 x = sequence.pad_sequences(x, maxlen=max_len)
 
+
 def input_transform(slist):
+    """
+
+    :param slist:
+    :return:
+    """
     l0 = []
     for ss in slist:
         string0 = ' '.join(jieba.cut(ss.replace('\n', '')))
@@ -58,24 +61,44 @@ def input_transform(slist):
     input1 = sequence.pad_sequences(input0, maxlen=max_len)
     return input1
 
+
 def load_model(model_name):
+    """
+
+    :param model_name:
+    :return : model
+    """
     print('Loading model.')
     model = keras.models.load_model(filepath=utils.get_model_path(model_name))
     print('Loading finish.')
     return model
 
+
 def predict(model, string_list):
+    """
+
+    :param model:
+    :param string_list:
+    :return : predict result
+    """
     input1 = input_transform(string_list)
     result = model.predict(input1)
     return result
 
+
 def index_to_label(index):
+    """
+
+    :param index:
+    :return : the label of index
+    """
     if index == 0:
         return 5
     elif index == 1:
         return 3
     elif index == 2:
         return 1
+
 
 if __name__ == '__main__':
     wen0 = load_model('wen0_bleeding.model')
@@ -101,10 +124,3 @@ if __name__ == '__main__':
     #     f_csv.writerow(headers)
     #     for i in range(len(text_list)):
     #         f_csv.writerow((text_list[i], bq_list[i], review_list[i], index_to_label(np.argmax(predict_list[i])), str(predict_list[i])))
-
-
-
-
-
-
-
