@@ -26,7 +26,7 @@ def review_predict():
         abort(404)
     data = request.json
     text_list = data['text']
-    predict_list = predict(wen0, text_list, tk_bleeding)
+    predict_list = predict(wen0_bleeding, text_list, tk_bleeding)
     prediction = [{'predict': predict_list[i].tolist(), 'text': text_list[i]} for i in range(len(text_list))]
     data_predict = {
         'category': data['category'],
