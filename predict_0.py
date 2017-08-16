@@ -9,49 +9,45 @@ max_features = 5000
 max_len = 200
 embedding_size = 400
 
-l1 = []
-l2 = []
-pos_f_name, neg_f_name, neu_f_name = 'multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt'
-pos_lines = open(utils.get_corpus_path(pos_f_name)).readlines()
-neu_lines = open(utils.get_corpus_path(neu_f_name)).readlines()
-neg_lines = open(utils.get_corpus_path(neg_f_name)).readlines()
+def get_tk(pos_f_name, neg_f_name, neu_f_name):
+    l1 = []
+    l2 = []
+    pos_lines = open(utils.get_corpus_path(pos_f_name)).readlines()
+    neu_lines = open(utils.get_corpus_path(neu_f_name)).readlines()
+    neg_lines = open(utils.get_corpus_path(neg_f_name)).readlines()
 
-pos_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), pos_lines))
-neu_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neu_lines))
-neg_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neg_lines))
+    pos_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), pos_lines))
+    neu_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neu_lines))
+    neg_cut_lines = list(map(lambda x: ' '.join(jieba.cut(x.replace('\n', ''))), neg_lines))
 
-# append pos and neg and neu
-for i in range(len(pos_cut_lines)):
-    if i < len(neg_lines):
-        l1.append(pos_cut_lines[i])
-        l2.append([1, 0, 0])
-        l1.append(neg_cut_lines[i])
-        l2.append([0, 0, 1])
-    else:
-        l1.append(pos_cut_lines[i])
-        l2.append([1, 0, 0])
+    # append pos and neg and neu
+    for i in range(len(pos_cut_lines)):
+        if i < len(neg_lines):
+            l1.append(pos_cut_lines[i])
+            l2.append([1, 0, 0])
+            l1.append(neg_cut_lines[i])
+            l2.append([0, 0, 1])
+        else:
+            l1.append(pos_cut_lines[i])
+            l2.append([1, 0, 0])
 
-for i in range(len(neu_cut_lines)):
-    l1.append(neu_cut_lines[i])
-    l2.append([0, 1, 0])
+    for i in range(len(neu_cut_lines)):
+        l1.append(neu_cut_lines[i])
+        l2.append([0, 1, 0])
 
-x = np.array(l1)
-y = np.array(l2)
+    x = np.array(l1)
+    y = np.array(l2)
 
-# Build vocabulary & sequences
-tk = text.Tokenizer(num_words=max_features, split=" ")
-tk.fit_on_texts(x)
-x = tk.texts_to_sequences(x)
-word_index = tk.word_index
-x = sequence.pad_sequences(x, maxlen=max_len)
+    # Build vocabulary & sequences
+    tk = text.Tokenizer(num_words=max_features, split=" ")
+    tk.fit_on_texts(x)
+    x = tk.texts_to_sequences(x)
+    word_index = tk.word_index
+    x = sequence.pad_sequences(x, maxlen=max_len)
+    return tk
 
 
-def input_transform(slist):
-    """
-
-    :param slist:
-    :return:
-    """
+def input_transform(slist, tk):
     l0 = []
     for ss in slist:
         string0 = ' '.join(jieba.cut(ss.replace('\n', '')))
@@ -63,35 +59,19 @@ def input_transform(slist):
 
 
 def load_model(model_name):
-    """
-
-    :param model_name:
-    :return : model
-    """
     print('Loading model.')
     model = keras.models.load_model(filepath=utils.get_model_path(model_name))
     print('Loading finish.')
     return model
 
 
-def predict(model, string_list):
-    """
-
-    :param model:
-    :param string_list:
-    :return : predict result
-    """
-    input1 = input_transform(string_list)
+def predict(model, string_list, tk):
+    input1 = input_transform(string_list, tk)
     result = model.predict(input1)
     return result
 
 
 def index_to_label(index):
-    """
-
-    :param index:
-    :return : the label of index
-    """
     if index == 0:
         return 5
     elif index == 1:
