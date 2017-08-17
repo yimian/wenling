@@ -9,6 +9,8 @@ import gensim
 import jieba
 import numpy as np
 import utils
+import random
+
 
 # Input parameters
 max_features = 5000
@@ -27,11 +29,12 @@ loss = 'categorical_crossentropy'
 optimizer = 'rmsprop'
 
 # Training parameters
-batch_size = 500
+batch_size = 256
 num_epoch = 100
-validation_split = 0.0
+validation_split = 0.1
 shuffle = True
-
+# random seed
+r = 7
 
 def training_save(model_name, pos_f_name, neg_f_name, neu_f_name):
     # Prepare the dataset
@@ -62,6 +65,11 @@ def training_save(model_name, pos_f_name, neg_f_name, neu_f_name):
     for i in range(len(neu_cut_lines)):
         l1.append(neu_cut_lines[i])
         l2.append([0, 1, 0])
+
+    random.Random(7).shuffle(l1)
+    random.Random(7).shuffle(l2)
+    # random.shuffle(l1, lambda: r)
+    # random.shuffle(l2, lambda: r)
 
     x = np.array(l1)
     y = np.array(l2)
@@ -112,3 +120,5 @@ if __name__ == '__main__':
     training_save('wen0_multi.model', 'multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt')
     stop_time = time.time()
     print('Time used:', str(stop_time - start_time))
+    # training set: 26165, test set: 6542, val_acc: 0.895
+    # training set: 29436, test set: 3271, val_acc:

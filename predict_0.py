@@ -3,7 +3,9 @@ from keras.preprocessing import text, sequence
 import jieba
 import numpy as np
 import utils
-
+import csv
+import json
+import re
 # Input parameters
 max_features = 5000
 max_len = 200
@@ -65,7 +67,7 @@ def load_model(model_name):
     return model
 
 
-def predict(model, string_list, tk):
+def predict(model, tk, string_list):
     input1 = input_transform(string_list, tk)
     result = model.predict(input1)
     return result
@@ -81,7 +83,42 @@ def index_to_label(index):
 
 
 if __name__ == '__main__':
-    wen0 = load_model('wen0_bleeding.model')
+    # wen0_bleeding = load_model('wen0_bleeding.model')
+    wen0_alopecia = load_model('wen0_alopecia.model')
+    tk_alopecia = get_tk('diaofa_pos.txt', 'diaofa_neu.txt', 'diaofa_neg.txt')
+
+    label_list = ['5', '3', '1']
+    x = []
+    y_label = []
+
+    with open('./tuofa_comments.csv') as f:
+        f_csv = csv.reader(f)
+        headers = next(f_csv)
+        for row in f_csv:
+            text = row[1]
+            rate = re.findall(r'\d+\.?\d*', row[2])[0]
+            x.append(text.replace('脱发', '掉发'))
+            y_label.append(rate)
+
+    print('the num of training set')
+    print(len(x))
+    print('the num of no duplicate')
+    print(len(set(x)))
+
+    y_predict = predict(wen0_alopecia, tk_alopecia, x).tolist()
+    y_predict_label = list(map(lambda x: label_list[x.index(max(x))], y_predict))
+    error_count = 0
+    for i in range(len(y_label)):
+        if y_predict_label[i] != y_label[i]:
+            print(x[i])
+            print('the predict result:')
+            print(y_predict[i])
+            print('the true result:')
+            print(y_label[i])
+            error_count += 1
+
+    print('Accuracy:')
+    print((len(y_label) - error_count) / len(y_label))
 
     # wb = xlrd.open_workbook('bleeding_test.xlsx')
     # sh = wb.sheet_by_index(0)

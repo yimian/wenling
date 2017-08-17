@@ -8,8 +8,8 @@ from predict_0 import *
 # load the keras model
 wen0_bleeding = load_model('wen0_multi.model')
 tk_bleeding = get_tk('multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt')
-wen0_alopecia = load_model('wen0_alopecia.model')
-tk_alopecia = get_tk('diaofa_pos.txt', 'diaofa_neu.txt', 'diaofa_neg.txt')
+# wen0_alopecia = load_model('wen0_alopecia.model')
+# tk_alopecia = get_tk('diaofa_pos.txt', 'diaofa_neu.txt', 'diaofa_neg.txt')
 
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def review_predict():
         abort(404)
     data = request.json
     text_list = data['text']
-    predict_list = predict(wen0_bleeding, text_list, tk_bleeding)
+    predict_list = predict(wen0_bleeding, tk_bleeding, text_list)
     prediction = [{'predict': predict_list[i].tolist(), 'text': text_list[i]} for i in range(len(text_list))]
     data_predict = {
         'category': data['category'],
