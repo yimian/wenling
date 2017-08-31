@@ -85,7 +85,7 @@ def index_to_label(index):
 if __name__ == '__main__':
     # wen0_bleeding = load_model('wen0_bleeding.model')
     wen0_alopecia = load_model('wen0_alopecia.model')
-    tk_alopecia = get_tk('diaofa_pos.txt', 'diaofa_neu.txt', 'diaofa_neg.txt')
+    tk_alopecia = get_tk('diaofa_pos.txt', 'diaofa_neg.txt', 'diaofa_neu.txt')
 
     label_list = ['5', '3', '1']
     x = []
