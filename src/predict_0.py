@@ -1,11 +1,13 @@
-import keras
-from keras.preprocessing import text, sequence
-import jieba
-import numpy as np
-import utils
 import csv
-import json
 import re
+
+import jieba
+import keras
+import numpy as np
+from keras.preprocessing import text, sequence
+
+from src import utils
+
 # Input parameters
 max_features = 5000
 max_len = 200

@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
-from flask import request
 from flask import abort
+from flask import request
 from flask_script import Manager
-from predict_0 import *
 
+from src.predict_0 import *
 
 # load the keras model
 wen0_bleeding = load_model('wen0_multi.model')

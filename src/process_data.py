@@ -1,5 +1,6 @@
 import xlrd
-import utils
+
+from src import utils
 
 
 def extra_split_text(pos_f, neu_f, neg_f, wb_name, sh_index, label_list):

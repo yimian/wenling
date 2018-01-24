@@ -1,5 +1,6 @@
-import config
 import os
+
+from src import config
 
 
 def get_pre_corpus_path(path):

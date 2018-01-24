@@ -1,16 +1,18 @@
-import numpy
-from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras import regularizers
-from keras.layers import Embedding
-from keras.layers import LSTM, Bidirectional
-from keras.preprocessing import text, sequence
+import random
 import time
+
 import gensim
 import jieba
+import numpy
 import numpy as np
-import utils
-import random
+from keras import regularizers
+from keras.layers import Dense, Dropout, Activation
+from keras.layers import Embedding
+from keras.layers import LSTM
+from keras.models import Sequential
+from keras.preprocessing import text, sequence
+
+from src import utils
 
 # Input parameters
 max_features = 5000
