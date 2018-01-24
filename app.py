@@ -2,8 +2,8 @@ from flask import Flask, jsonify
 from flask import abort
 from flask import request
 from flask_script import Manager
-
 from src.predict_0 import *
+
 
 # load the keras model
 wen0_bleeding = load_model('wen0_multi.model')
@@ -14,6 +14,7 @@ tk_bleeding = get_tk('multi_pos.txt', 'multi_neg.txt', 'multi_neu.txt')
 
 app = Flask(__name__)
 manager = Manager(app)
+
 
 @app.route('/')
 def index():
@@ -27,7 +28,8 @@ def review_predict():
     data = request.json
     text_list = data['text']
     predict_list = predict(wen0_bleeding, tk_bleeding, text_list)
-    prediction = [{'predict': predict_list[i].tolist(), 'text': text_list[i]} for i in range(len(text_list))]
+    prediction = [{'predict': predict_list[i].tolist(), 'text': text_list[i]}
+                  for i in range(len(text_list))]
     data_predict = {
         'category': data['category'],
         'prediction': prediction
