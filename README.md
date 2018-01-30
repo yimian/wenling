@@ -12,6 +12,10 @@ The `process_data.py` provides some methods to process the corpus such as how to
 ## Parameters
 The `params.py` defines all the parameters which are needed in training and predicting.
 
+To make sure the predicting and training use the same parameters, I new a parameters object `params_o` in `params.py`
+and initialize its parameters. When training and predicting, you should import the same parameters object. You should
+change the parameters in `params.py` instead of in training or predicting.
+
 ## Train Model
 Just run:
 ```
