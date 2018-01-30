@@ -51,8 +51,7 @@ class Params(object):
         self.neu_file_path = utils.get_corpus_path('diaofa_neu.txt')
         self.neg_file_path = utils.get_corpus_path('diaofa_neg.txt')
         self.w2v_model_path = utils.get_w2v_model_path('tm/tm.model')
-        self.model_path = utils.get_model_path('wen0_diaofa.model') + '_' + self.model_type
-        self.token_path = utils.get_model_path('wen0_diaofa.tk')
+
 
         # random seed
         self.random_seed = 7
@@ -81,12 +80,13 @@ class Params(object):
         self.optimizer = 'rmsprop'
 
         # Training parameters
-        self.model_type = 'LSTM'
+        self.model_type = 'CNNLSTM'
         self.batch_size = 256
         self.num_epoch = 10
         self.validation_split = 0.2
         self.shuffle = True
-
+        self.model_path = utils.get_model_path('wen0_diaofa.model') + '_' + self.model_type
+        self.token_path = utils.get_model_path('wen0_diaofa.tk')
 
 params_o = Params()
 params_o.demo_init()

@@ -91,55 +91,11 @@ def base_for_train(params):
 
 
 def training(params):
-    # Prepare the dataset
-    # l1 = []
-    # l2 = []
-    #
-    # with open(utils.get_corpus_path(pos_f_name)) as f:
-    #     for line in f.readlines():
-    #         l1.append(' '.join(jieba.cut(line.replace('\n', ''))))
-    #         l2.append([1, 0, 0])
-    #
-    # with open(utils.get_corpus_path(neu_f_name)) as f:
-    #     for line in f.readlines():
-    #         l1.append(' '.join(jieba.cut(line.replace('\n', ''))))
-    #         l2.append([0, 1, 0])
-    #
-    # with open(utils.get_corpus_path(neg_f_name)) as f:
-    #     for line in f.readlines():
-    #         l1.append(' '.join(jieba.cut(line.replace('\n', ''))))
-    #         l2.append([0, 0, 1])
-    #
-    # random.Random(r).shuffle(l1)
-    # random.Random(r).shuffle(l2)
-    #
-    # x = np.array(l1)
-    # y = np.array(l2)
-
-    # x, y = read_data(params)
-    #
-    # # Build vocabulary & sequences
-    # tk = text.Tokenizer(num_words=max_features)
-    # tk.fit_on_texts(x)
-    # x = tk.texts_to_sequences(x)
-    # word_index = tk.word_index
-    # x = sequence.pad_sequences(x, maxlen=max_len)
-    #
-    # # Build pre-trained embedding layer
-    # w2v = gensim.models.Word2Vec.load(utils.get_w2v_model_path(w2v_model_name))
-    # embedding_matrix = np.zeros((len(word_index) + 1, embedding_size))
-    # for word, i in word_index.items():
-    #     if word in w2v.wv.vocab:
-    #         embedding_matrix[i] = w2v[word]
-    # embedding_layer = Embedding(len(word_index) + 1,
-    #                             embedding_size,
-    #                             weights=[embedding_matrix],
-    #                             input_length=max_len)
-
     x, y, tk, embedding_layer = base_for_train(params)
     model = Sequential()
     model.add(embedding_layer)
 
+    model_flag = True
     if params.model_type == 'LSTM':
         model.add(Dropout(params.dropout))
         model.add(LSTM(units=params.output_size, activation=params.rnn_activation,
@@ -154,7 +110,7 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch, validation_split=params.validation_split,
                   shuffle=params.shuffle)
 
-    if params.model_type == 'GRU':
+    elif params.model_type == 'GRU':
         model.add(GRU(output_dim=params.output_size, activation=params.rnn_activation,
                       recurrent_activation=params.recurrent_activation))
         model.add(Dropout(params.dropout))
@@ -168,7 +124,7 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    if params.model_type == 'BiLSTM':
+    elif params.model_type == 'BiLSTM':
         model.add(Bidirectional(LSTM(output_dim=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
@@ -182,7 +138,7 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    if params.model_type == 'BiGRU':
+    elif params.model_type == 'BiGRU':
         model.add(Bidirectional(GRU(output_dim=params.output_size, activation=params.rnn_activation,
                                     recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
@@ -196,7 +152,7 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    if params.model_type == 'CNNLSTM':
+    elif params.model_type == 'CNNLSTM':
         model.add(Dropout(params.dropout))
         model.add(Convolution1D(nb_filter=params.num_filter,
                                 filter_length=params.filter_length,
@@ -217,9 +173,14 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    model.save(filepath=params.model_path)
-    pickle.dump(tk, open(params.token_path, 'wb'))
-    print('model was saved to ' + params.model_path)
+    else:
+        print('There is not this model')
+        model_flag = False
+
+    if model_flag:
+        model.save(filepath=params.model_path)
+        pickle.dump(tk, open(params.token_path, 'wb'))
+        print('model was saved to ' + params.model_path)
 
 
 if __name__ == '__main__':
