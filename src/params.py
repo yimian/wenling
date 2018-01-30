@@ -26,6 +26,7 @@ class Params(object):
         self.output_size = 0
         self.rnn_activation = ''
         self.recurrent_activation = ''
+        self.l2_regularization = 0
 
         # CNN parameters
         self.filter_length = 0
@@ -67,6 +68,7 @@ class Params(object):
         self.output_size = 50
         self.rnn_activation = 'tanh'
         self.recurrent_activation = 'hard_sigmoid'
+        self.l2_regularization = 0
 
         # CNN parameters
         self.filter_length = 3

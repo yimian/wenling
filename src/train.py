@@ -8,7 +8,7 @@ import pickle
 import jieba
 import gensim
 import numpy as np
-# from keras import regularizers
+from keras import regularizers
 
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -74,8 +74,7 @@ def training(params):
         model.add(LSTM(units=params.output_size, activation=params.rnn_activation,
                        recurrent_activation=params.recurrent_activation))
         model.add(Dropout(params.dropout))
-        # model.add(Dense(3, kernel_regularizer=regularizers.l2(l2_regularization)))
-        model.add(Dense(3))
+        model.add(Dense(3, kernel_regularizer=regularizers.l2(params_o.l2_regularization)))
         model.add(Activation('softmax'))
         model.compile(loss=params.loss,
                       optimizer=params.optimizer,
@@ -88,7 +87,7 @@ def training(params):
         model.add(GRU(units=params.output_size, activation=params.rnn_activation,
                       recurrent_activation=params.recurrent_activation))
         model.add(Dropout(params.dropout))
-        model.add((Dense(3)))
+        model.add(Dense(3, kernel_regularizer=regularizers.l2(params_o.l2_regularization)))
         model.add(Activation('softmax'))
 
         model.compile(loss=params.loss,
@@ -103,7 +102,7 @@ def training(params):
         model.add(Bidirectional(LSTM(units=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
-        model.add((Dense(3)))
+        model.add(Dense(3, kernel_regularizer=regularizers.l2(params_o.l2_regularization)))
         model.add(Activation('softmax'))
 
         model.compile(loss=params.loss,
@@ -118,7 +117,7 @@ def training(params):
         model.add(Bidirectional(GRU(units=params.output_size, activation=params.rnn_activation,
                                     recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
-        model.add((Dense(3)))
+        model.add(Dense(3, kernel_regularizer=regularizers.l2(params_o.l2_regularization)))
         model.add(Activation('softmax'))
 
         model.compile(loss=params.loss,
@@ -139,7 +138,7 @@ def training(params):
         model.add(Bidirectional(LSTM(units=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
-        model.add((Dense(3)))
+        model.add(Dense(3, kernel_regularizer=regularizers.l2(params_o.l2_regularization)))
         model.add(Activation('softmax'))
 
         model.compile(loss=params.loss,
