@@ -47,9 +47,9 @@ class Params(object):
 
     def demo_init(self):
         # data parameters
-        self.pos_file_path = utils.get_corpus_path('diaofa_pos.txt')
-        self.neu_file_path = utils.get_corpus_path('diaofa_neu.txt')
-        self.neg_file_path = utils.get_corpus_path('diaofa_neg.txt')
+        self.pos_file_path = utils.get_corpus_path('mix_pos.txt')
+        self.neu_file_path = utils.get_corpus_path('mix_neu.txt')
+        self.neg_file_path = utils.get_corpus_path('mix_neg.txt')
         self.w2v_model_path = utils.get_w2v_model_path('tm/tm.model')
 
 
@@ -82,11 +82,11 @@ class Params(object):
         # Training parameters
         self.model_type = 'CNNLSTM'
         self.batch_size = 256
-        self.num_epoch = 10
+        self.num_epoch = 20
         self.validation_split = 0.2
         self.shuffle = True
-        self.model_path = utils.get_model_path('wen0_diaofa.model') + '_' + self.model_type
-        self.token_path = utils.get_model_path('wen0_diaofa.tk')
+        self.model_path = utils.get_model_path('mix.model') + '_' + self.model_type
+        self.token_path = utils.get_model_path('mix.tk')
 
 params_o = Params()
 params_o.demo_init()

@@ -18,7 +18,7 @@ from keras.layers import GRU
 from keras.layers import Conv1D, MaxPooling1D, Merge
 from keras.preprocessing import text, sequence
 
-from src.param import params_o
+from src.params import params_o
 
 
 def base_for_train(params):
