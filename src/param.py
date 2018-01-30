@@ -82,7 +82,7 @@ class Params(object):
 
         # Training parameters
         self.model_type = 'LSTM'
-        self.batch_size = 512
+        self.batch_size = 256
         self.num_epoch = 10
         self.validation_split = 0.2
         self.shuffle = True

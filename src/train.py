@@ -64,8 +64,12 @@ def base_for_train(params):
         for line in f.readlines():
             x.append(' '.join(jieba.cut(line.replace('\n', ''))))
             y.append([0, 0, 1])
-    x = random.Random(params.random_seed).shuffle(x)
-    y = random.Random(params.random_seed).shuffle(y)
+
+    random.Random(params.random_seed).shuffle(x)
+    random.Random(params.random_seed).shuffle(y)
+
+    x = np.array(x)
+    y = np.array(y)
 
     tk = text.Tokenizer(num_words=params.max_features)
     tk.fit_on_texts(x)
