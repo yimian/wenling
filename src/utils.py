@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 import os
-
 from src import config
 
 
@@ -17,3 +17,5 @@ def get_model_path(path):
 
 def get_w2v_model_path(path):
     return os.path.join(config.W2V_MODEL_PATH, path)
+
+

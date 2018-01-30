@@ -4,16 +4,6 @@ from src import utils
 
 
 def extra_split_text(pos_f, neu_f, neg_f, wb_name, sh_index, label_list):
-    """
-
-    :param pos_f:
-    :param neu_f:
-    :param neg_f:
-    :param wb_name:
-    :param sh_index:
-    :param label_list:
-    :return:
-    """
     wb = xlrd.open_workbook(utils.get_pre_corpus_path(wb_name))
     sh = wb.sheet_by_index(sh_index)
     num_pos = 0
