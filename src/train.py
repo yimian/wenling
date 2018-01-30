@@ -14,39 +14,11 @@ from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Embedding
 from keras.layers import LSTM, Bidirectional
-from keras.layers import SimpleRNN
 from keras.layers import GRU
-from keras.layers import Convolution1D, MaxPooling1D, Merge
+from keras.layers import Conv1D, MaxPooling1D, Merge
 from keras.preprocessing import text, sequence
 
 from src.param import params_o
-
-
-# # Input parameters
-# max_features = 5000
-# max_len = 200
-# embedding_size = 400
-# border_mode = 'same'
-# dropout = 0.25
-# l2_regularization = 0.05
-#
-# # RNN parameters
-# output_size = 50
-# rnn_activation = 'tanh'
-# recurrent_activation = 'hard_sigmoid'
-#
-# # Compile parameters
-# loss = 'categorical_crossentropy'
-# optimizer = 'rmsprop'
-#
-# # Training parameters
-# batch_size = 512
-# num_epoch = 10
-# validation_split = 0.2
-# shuffle = True
-#
-# # random seed
-# r = 7
 
 
 def base_for_train(params):
@@ -97,6 +69,7 @@ def training(params):
 
     model_flag = True
     if params.model_type == 'LSTM':
+        print('======== LSTM ========')
         model.add(Dropout(params.dropout))
         model.add(LSTM(units=params.output_size, activation=params.rnn_activation,
                        recurrent_activation=params.recurrent_activation))
@@ -111,7 +84,8 @@ def training(params):
                   shuffle=params.shuffle)
 
     elif params.model_type == 'GRU':
-        model.add(GRU(output_dim=params.output_size, activation=params.rnn_activation,
+        print('======== GRU ========')
+        model.add(GRU(units=params.output_size, activation=params.rnn_activation,
                       recurrent_activation=params.recurrent_activation))
         model.add(Dropout(params.dropout))
         model.add((Dense(3)))
@@ -121,11 +95,12 @@ def training(params):
                       optimizer=params.optimizer,
                       metrics=['accuracy'])
 
-        model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
     elif params.model_type == 'BiLSTM':
-        model.add(Bidirectional(LSTM(output_dim=params.output_size, activation=params.rnn_activation,
+        print('======== BiLSTM ========')
+        model.add(Bidirectional(LSTM(units=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
         model.add((Dense(3)))
@@ -135,11 +110,12 @@ def training(params):
                       optimizer=params.optimizer,
                       metrics=['accuracy'])
 
-        model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
     elif params.model_type == 'BiGRU':
-        model.add(Bidirectional(GRU(output_dim=params.output_size, activation=params.rnn_activation,
+        print('======== BiGRU ========')
+        model.add(Bidirectional(GRU(units=params.output_size, activation=params.rnn_activation,
                                     recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
         model.add((Dense(3)))
@@ -149,18 +125,18 @@ def training(params):
                       optimizer=params.optimizer,
                       metrics=['accuracy'])
 
-        model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
     elif params.model_type == 'CNNLSTM':
+        print('======== CNNLSTM ========')
         model.add(Dropout(params.dropout))
-        model.add(Convolution1D(nb_filter=params.num_filter,
-                                filter_length=params.filter_length,
-                                border_mode=params.border_mode,
-                                activation=params.cnn_activation,
-                                subsample_length=1))
-        model.add(MaxPooling1D(pool_length=params.pool_length))
-        model.add(Bidirectional(LSTM(output_dim=params.output_size, activation=params.rnn_activation,
+        model.add(Conv1D(filters=params.num_filter,
+                         kernel_size=params.filter_length,
+                         padding=params.border_mode,
+                         activation=params.cnn_activation))
+        model.add(MaxPooling1D(pool_size=params.pool_length))
+        model.add(Bidirectional(LSTM(units=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
         model.add((Dense(3)))
@@ -170,11 +146,11 @@ def training(params):
                       optimizer=params.optimizer,
                       metrics=['accuracy'])
 
-        model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
     else:
-        print('There is not this model')
+        print('======== There is not this model ========')
         model_flag = False
 
     if model_flag:
