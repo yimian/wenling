@@ -1,24 +1,27 @@
 # WENLING Sentiment Analysis Package
-A deep learning sentiment alaysis package which include several model such as LSTM, Bi-LSTM, GRU, Bi-GRU and CNN-LSTM.
+A deep learning sentiment alaysis package which includes several models such as LSTM, Bi-LSTM, GRU, Bi-GRU and CNN-LSTM.
 
-## Config
-The `config.py` contains the path where data and model is saved. And `utils.py` provides some methods to build the path.
+## Config & Utils
+The `config.py` contains the path where data and model are saved. The `utils.py` provides some methods to build the path.
 
 ## Data Processing
-The `process_data.py` provides some methods to process the corpus such as how to extract text in a `.xlsx` file and split it into positive, neural and negative file.
+The `process_data.py` provides some methods to process the corpus such as how to extract text from a `.xlsx` file and split it into positive, neural and negative file.
 
 ## Parameters
-The `params.py`
+The `params.py` defines all the parameters which are needed in training and predicting, which includes:
+- `pos_file_path`: the path of positive sentence file
+- `neu_file_path`: the path of neural sentence file
+- `neg_file_path`: the path of negative sentence file
+
 
 ## Train Model
 Just run:
 ```
 python train.py
 ```
-The `train_0.py` is the script to train the model. The parameters is set at the begin of the code. The model will be automatically saved to the path in `config.py`. All the packages you need is in `requirements.txt`. What's more, if your computer has gpu, you should install the `tensorflow-gpu` rather than `tensorflow`. You can find the meaning of these parameter in the document of keras.
 
 ## Predict
-In `predict_0.py`, I show how the model can be used. Attention, you should use the `list` of text as input, and you will get a predict `list`. 
+
 
 
 ## Models Measure
