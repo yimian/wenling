@@ -9,7 +9,6 @@ import jieba
 import gensim
 import numpy as np
 # from keras import regularizers
-from keras.preprocessing import text, sequence
 
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -18,8 +17,6 @@ from keras.layers import LSTM, Bidirectional
 from keras.layers import SimpleRNN
 from keras.layers import GRU
 from keras.layers import Convolution1D, MaxPooling1D, Merge
-from keras.engine import Input
-from keras.optimizers import SGD
 from keras.preprocessing import text, sequence
 
 from src.param import params_o
@@ -136,9 +133,10 @@ def training(params):
     #                             input_length=max_len)
 
     x, y, tk, embedding_layer = base_for_train(params)
+    model = Sequential()
+    model.add(embedding_layer)
+
     if params.model_type == 'LSTM':
-        model = Sequential()
-        model.add(embedding_layer)
         model.add(Dropout(params.dropout))
         model.add(LSTM(units=params.output_size, activation=params.rnn_activation,
                        recurrent_activation=params.recurrent_activation))
@@ -151,13 +149,8 @@ def training(params):
                       metrics=['accuracy'])
         model.fit(x, y, batch_size=params.batch_size, epochs=params.num_epoch, validation_split=params.validation_split,
                   shuffle=params.shuffle)
-        model.save(filepath=params.model_path)
-        pickle.dump(tk, open(params.token_path, 'wb'))
-        print('model was saved to ' + params.model_path)
 
     if params.model_type == 'GRU':
-        model = Sequential()
-        model.add(embedding_layer)
         model.add(GRU(output_dim=params.output_size, activation=params.rnn_activation,
                       recurrent_activation=params.recurrent_activation))
         model.add(Dropout(params.dropout))
@@ -171,9 +164,7 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    if params.model_type == 'Bi-LSTM':
-        model = Sequential()
-        model.add(embedding_layer)
+    if params.model_type == 'BiLSTM':
         model.add(Bidirectional(LSTM(output_dim=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
@@ -187,10 +178,29 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-    if params.model_type == 'Bi-GRU':
-        model = Sequential()
-        model.add(embedding_layer)
+    if params.model_type == 'BiGRU':
         model.add(Bidirectional(GRU(output_dim=params.output_size, activation=params.rnn_activation,
+                                    recurrent_activation=params.recurrent_activation)))
+        model.add(Dropout(params.dropout))
+        model.add((Dense(3)))
+        model.add(Activation('softmax'))
+
+        model.compile(loss=params.loss,
+                      optimizer=params.optimizer,
+                      metrics=['accuracy'])
+
+        model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
+                  validation_split=params.validation_split, shuffle=params.shuffle)
+
+    if params.model_type == 'CNNLSTM':
+        model.add(Dropout(params.dropout))
+        model.add(Convolution1D(nb_filter=params.num_filter,
+                                filter_length=params.filter_length,
+                                border_mode=params.border_mode,
+                                activation=params.cnn_activation,
+                                subsample_length=1))
+        model.add(MaxPooling1D(pool_length=params.pool_length))
+        model.add(Bidirectional(LSTM(output_dim=params.output_size, activation=params.rnn_activation,
                                      recurrent_activation=params.recurrent_activation)))
         model.add(Dropout(params.dropout))
         model.add((Dense(3)))
@@ -203,7 +213,9 @@ def training(params):
         model.fit(x, y, batch_size=params.batch_size, nb_epoch=params.num_epoch,
                   validation_split=params.validation_split, shuffle=params.shuffle)
 
-
+    model.save(filepath=params.model_path)
+    pickle.dump(tk, open(params.token_path, 'wb'))
+    print('model was saved to ' + params.model_path)
 
 
 if __name__ == '__main__':

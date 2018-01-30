@@ -18,7 +18,7 @@ class Params(object):
         self.max_features = 0
         self.max_len = 0
         self.embedding_size = 0
-        self.border_mode = ''
+
         self.dropout = 0
         self.l2_regularization = 0
 
@@ -26,6 +26,13 @@ class Params(object):
         self.output_size = 0
         self.rnn_activation = ''
         self.recurrent_activation = ''
+
+        # CNN parameters
+        self.filter_length = 0
+        self.num_filter = 0
+        self.pool_length = 0
+        self.cnn_activation = ''
+        self.border_mode = ''
 
         # Compile parameters
         self.loss = ''
@@ -39,7 +46,7 @@ class Params(object):
         self.shuffle = ''
 
     def demo_init(self):
-        # dataset parameters
+        # data parameters
         self.pos_file_path = utils.get_corpus_path('diaofa_pos.txt')
         self.neu_file_path = utils.get_corpus_path('diaofa_neu.txt')
         self.neg_file_path = utils.get_corpus_path('diaofa_neg.txt')
@@ -54,7 +61,6 @@ class Params(object):
         self.max_features = 5000
         self.max_len = 200
         self.embedding_size = 400
-        self.border_mode = 'same'
         self.dropout = 0.25
         self.l2_regularization = 0.05
 
@@ -62,6 +68,13 @@ class Params(object):
         self.output_size = 50
         self.rnn_activation = 'tanh'
         self.recurrent_activation = 'hard_sigmoid'
+
+        # CNN parameters
+        self.filter_length = 3
+        self.num_filter = 150
+        self.pool_length = 2
+        self.cnn_activation = 'relu'
+        self.border_mode = 'same'
 
         # Compile parameters
         self.loss = 'categorical_crossentropy'
