@@ -3,6 +3,15 @@ from src import utils
 
 
 class Params(object):
+    """
+    Parameters description:
+        pos_file_path: the path of positive sentence file
+        neu_file_path: the path of neural sentence file
+        neg_file_path: the path of negative sentence file
+        w2v_model_path: the path of word2vec model
+        token_path: the path of the text token which is used to transform the text to one-hot representation
+        
+    """
     def __init__(self):
         # dataset parameters
         self.pos_file_path = ''

@@ -66,8 +66,8 @@ def training(params):
     x, y, tk, embedding_layer = base_for_train(params)
     model = Sequential()
     model.add(embedding_layer)
-
     model_flag = True
+
     if params.model_type == 'LSTM':
         print('======== LSTM ========')
         model.add(Dropout(params.dropout))
