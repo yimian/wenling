@@ -1,4 +1,4 @@
-# WENLING Sentiment Analysis Package
+# WENLING(文灵) Sentiment Analysis Package
 A deep learning sentiment alaysis package which includes several models such as LSTM, Bi-LSTM, GRU, Bi-GRU and CNN-LSTM.
 
 ## Config & Utils

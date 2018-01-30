@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-
-"""
 import random
 import time
 import pickle
@@ -131,7 +128,7 @@ def training(params):
         model.add(Dropout(params.dropout))
         model.add(Conv1D(filters=params.num_filter,
                          kernel_size=params.filter_length,
-                         padding=params.border_mode,
+                         padding=params.padding,
                          activation=params.cnn_activation))
         model.add(MaxPooling1D(pool_size=params.pool_length))
         model.add(Bidirectional(LSTM(units=params.output_size, activation=params.rnn_activation,
