@@ -9,13 +9,12 @@ import jieba
 import gensim
 import numpy as np
 from keras import regularizers
-
-from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
 from keras.layers import Embedding
 from keras.layers import LSTM, Bidirectional
 from keras.layers import GRU
-from keras.layers import Conv1D, MaxPooling1D, Merge
+from keras.layers import Conv1D, MaxPooling1D
 from keras.preprocessing import text, sequence
 
 from src.params import params_o
@@ -50,11 +49,11 @@ def base_for_train(params):
     word_index = tk.word_index
     x = sequence.pad_sequences(x, maxlen=params.max_len)
 
-    w2v = gensim.models.Word2Vec.load(params.w2v_model_path)
+    w2v_model = gensim.models.Word2Vec.load(params.w2v_model_path)
     embedding_matrix = np.zeros((len(word_index) + 1, params.embedding_size))
     for word, i in word_index.items():
-        if word in w2v.wv.vocab:
-            embedding_matrix[i] = w2v[word]
+        if word in w2v_model:
+            embedding_matrix[i] = w2v_model[word]
     embedding_layer = Embedding(len(word_index) + 1,
                                 params.embedding_size,
                                 weights=[embedding_matrix],
