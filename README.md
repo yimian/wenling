@@ -1,4 +1,4 @@
-# WENLING(文灵) Sentiment Analysis Package
+# WENLING (文灵) Sentiment Analysis Package
 A deep learning sentiment alaysis package which includes several models such as LSTM, Bi-LSTM, GRU, Bi-GRU and CNN-LSTM.
 
 ## Config & Utils
@@ -25,11 +25,13 @@ $ pip install -r requirements.txt
 ## Train Model
 Just run the command in root directory of project:
 ```
-python train.py
+$ python -m src.train
 ```
 
 ## Predict
-
+```angular2html
+$ python -m src.predict
+```
 
 
 ## Models Measure
