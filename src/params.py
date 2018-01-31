@@ -91,6 +91,9 @@ class Params(object):
         self.model_path = ''
         self.token_path = ''
 
+        # Predict Parameters
+        self.models_config = None
+
     def demo_init(self):
         # Data Parameters
         self.pos_file_path = utils.get_corpus_path('mix_pos.txt')
@@ -133,6 +136,18 @@ class Params(object):
         self.shuffle = True
         self.model_path = utils.get_model_path('mix.model') + '_' + self.model_type
         self.token_path = utils.get_model_path('mix.tk')
+
+        # Predict Model Config
+        self.models_config = {
+            'mix': {
+                'token_path' : utils.get_model_path('mix.tk'),
+                'model_path': utils.get_model_path('mix.model_LSTM')
+            },
+            'diaofa': {
+                'token_path': utils.get_model_path('diaofa.tk'),
+                'model_path': utils.get_model_path('diaofa.model_LSTM')
+            }
+        }
 
 
 params_o = Params()

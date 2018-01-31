@@ -2,59 +2,45 @@
 import csv
 import re
 import jieba
-import keras
-import pickle
 import numpy as np
-from keras.preprocessing import text, sequence
-from src import utils
+import pickle
+import keras
+from keras.preprocessing import sequence
+from src.params import params_o
 
 
 class Predictor(object):
-
     def __init__(self):
-        self.max_features = 5000
-        self.max_len = 200
-        self.embedding_size = 400
-        self.keras_model_name = 'wen0_diaofa'
+        self.tk = None
+        self.keras_model = None
+        self.name = None
+        self.max_len = params_o.max_len
 
-        # the pre-train keras model
-        self.keras_model = self.load_model(self.keras_model_name + '.model')
-        # get the pre-train tk
-        self.tk = self.get_tk(self.keras_model_name + '.tk')
-
-    def get_tk(self, tk_name):
-        tk = pickle.load(open(utils.get_model_path(tk_name), 'rb'))
-        return tk
-
-    def load_model(self, model_name):
-        print('Loading model.')
-        model = keras.models.load_model(
-            filepath=utils.get_model_path(model_name))
-        print('Loading finish.')
-        return model
-
-    def input_transform(self, slist):
-        l0 = []
-        for ss in slist:
-            string0 = ' '.join(jieba.cut(ss.replace('\n', '')))
-            l0.append(string0)
-        l0 = np.array(l0)
-        input0 = self.tk.texts_to_sequences(l0)
-        input1 = sequence.pad_sequences(input0, maxlen=self.max_len)
-        return input1
-
-    def predict(self, string_list):
-        input1 = self.input_transform(string_list)
-        result = self.keras_model.predict(input1).tolist()
+    def predict(self, sentence_list):
+        x = [' '.join((jieba.cut(sentence))) for sentence in sentence_list]
+        x = self.tk.texts_to_sequences(x)
+        x = sequence.pad_sequences(x, maxlen=self.max_len)
+        result = self.keras_model.predict(x).tolist()
         return result
 
-    def index_to_label(self, index):
-        if index == 0:
-            return 5
-        elif index == 1:
-            return 3
-        elif index == 2:
-            return 1
+
+def init_predictor_dict():
+    predictor_dict = {}
+    for name in params_o.models_config:
+        predictor = Predictor()
+        predictor.tk = pickle.load(open(params_o.models_config[name]['token_path'], 'rb'))
+        predictor.keras_model = keras.models.load_model(filepath=params_o.models_config[name]['model_path'])
+        predictor_dict[name] = predictor
+    return predictor_dict
+
+
+def index_to_label(index):
+    if index == 0:
+        return 5
+    elif index == 1:
+        return 3
+    elif index == 2:
+        return 1
 
 
 if __name__ == '__main__':
