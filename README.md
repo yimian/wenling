@@ -21,6 +21,8 @@ change the parameters in `params.py` instead of in training or predicting.
 $ pip install -r requirements.txt
 ```
 
+## Configure the Parameters
+Configure the corpus path, model path and other parameters in training in `params.py`.
 
 ## Train Model
 Just run the command in root directory of project:
@@ -32,7 +34,6 @@ $ python -m src.train
 ```angular2html
 $ python -m src.predict
 ```
-
 
 ## Models Measure
 training set: 26165 samples
