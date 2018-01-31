@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 ```
 
 ## Configure the Parameters
-Configure the corpus path, model path and other parameters in training in `params.py`.
+Configure the corpus path, model path and other parameters and predicting in training in `params.py`.
 
 ## Train Model
 Just run the command in root directory of project:
