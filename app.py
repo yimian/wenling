@@ -2,10 +2,9 @@ from flask import Flask, jsonify
 from flask import abort
 from flask import request
 from flask_script import Manager
-from src.predict import Predictor
+from src.predict import init_predictor_dict
 
-
-o_predictor = Predictor()
+predictor_dict = init_predictor_dict()
 app = Flask(__name__)
 manager = Manager(app)
 
@@ -21,7 +20,7 @@ def review_predict():
         abort(404)
     data = request.json
     text_list = data['text']
-    predict_list = o_predictor.predict(text_list)
+    predict_list = predictor_dict[data['category']].predict(text_list)
     prediction = [{'predict': predict_list[i], 'text': text_list[i]}
                   for i in range(len(text_list))]
     data_predict = {

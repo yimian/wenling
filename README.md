@@ -16,8 +16,14 @@ To make sure the predicting and training use the same parameters, I new a parame
 and initialize its parameters. When training and predicting, you should import the same parameters object. You should
 change the parameters in `params.py` instead of in training or predicting.
 
+## Install
+```angular2html
+$ pip install -r requirements.txt
+```
+
+
 ## Train Model
-Just run:
+Just run the command in root directory of project:
 ```
 python train.py
 ```
