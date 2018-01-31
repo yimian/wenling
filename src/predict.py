@@ -60,10 +60,7 @@ if __name__ == '__main__':
         print(name)
         predictor = predictor_dict[name]
         y_predict = predictor.predict(x)
-
-        y_predict_label = list(
-            map(lambda x: label_list[x.index(max(x))], y_predict))
-
+        y_predict_label = [label_list[predict_p.index(max(predict_p))] for predict_p in y_predict]
         error_count = 0
         for i in range(len(y_label)):
             if y_predict_label[i] != y_label[i]:

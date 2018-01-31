@@ -1,4 +1,5 @@
 xlrd
+flask
 numpy
 jieba
 tensorflow

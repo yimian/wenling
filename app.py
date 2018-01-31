@@ -20,25 +20,14 @@ def review_predict():
         abort(404)
     data = request.json
     text_list = data['text']
-    predict_list = predictor_dict[data['category']].predict(text_list)
+    predict_list = predictor_dict[data['model_name']].predict(text_list)
     prediction = [{'predict': predict_list[i], 'text': text_list[i]}
                   for i in range(len(text_list))]
     data_predict = {
-        'category': data['category'],
+        'model_name': data['model_name'],
         'prediction': prediction
     }
     return jsonify(data_predict)
-
-
-# @app.route('/todo/api/v1.0/reviews_predict', methods=['POST'])
-# def reviews_predict():
-#     if not request.json:
-#         abort(404)
-#     task = {
-#         'category': request.json['category'],
-#         'text': request.json['text'],
-#     }
-#     return jsonify(task), 201
 
 
 if __name__ == '__main__':
