@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import csv
-import re
 import jieba
 import pickle
 import keras
@@ -33,37 +31,3 @@ def init_predictor_dict():
     return predictor_dict
 
 
-def index_to_label(index):
-    if index == 0:
-        return 5
-    elif index == 1:
-        return 3
-    elif index == 2:
-        return 1
-
-
-if __name__ == '__main__':
-    o_predictor = Predictor()
-    label_list = ['5', '3', '1']
-    x = []
-    y_label = []
-    with open('data/tuofa_comments.csv') as f:
-        f_csv = csv.reader(f)
-        headers = next(f_csv)
-        for row in f_csv:
-            text = row[1]
-            rate = re.findall(r'\d+\.?\d*', row[2])[0]
-            x.append(text.replace('脱发', '掉发'))
-            y_label.append(rate)
-    predictor_dict = init_predictor_dict()
-    for name in predictor_dict:
-        print(name)
-        predictor = predictor_dict[name]
-        y_predict = predictor.predict(x)
-        y_predict_label = [label_list[predict_p.index(max(predict_p))] for predict_p in y_predict]
-        error_count = 0
-        for i in range(len(y_label)):
-            if y_predict_label[i] != y_label[i]:
-                error_count += 1
-        print('Accuracy:')
-        print((len(y_label) - error_count) / len(y_label))
