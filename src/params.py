@@ -108,7 +108,7 @@ class Params(object):
         self.max_features = 5000
         self.max_len = 200
         self.embedding_size = 400
-        self.dropout = 0.25
+        self.dropout = 0.5
         self.l2_regularization = 0.05
 
         # RNN Parameters
@@ -126,12 +126,12 @@ class Params(object):
 
         # Compile Parameters
         self.loss = 'categorical_crossentropy'
-        self.optimizer = 'rmsprop'
+        self.optimizer = 'sgd'
 
         # Training Parameters
         self.model_type = 'LSTM'
         self.batch_size = 256
-        self.num_epoch = 10
+        self.num_epoch = 1000
         self.validation_split = 0.2
         self.shuffle = True
         self.model_path = utils.get_model_path('diaofa.model') + '_' + self.model_type
