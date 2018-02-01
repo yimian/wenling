@@ -50,7 +50,8 @@ $ python -m src.train
 $ python -m src.predict
 ```
 
-### 调参指南
+### 参考读物
+- [Keras中文文档](https://keras-cn.readthedocs.io/en/latest/)
 - [你有哪些deep learning（rnn、cnn）调参的经验？
 ](https://www.zhihu.com/question/41631631)
 - [Must Know Tips/Tricks in Deep Neural Networks (by Xiu-Shen Wei)](http://lamda.nju.edu.cn/weixs/project/CNNTricks/CNNTricks.html)
