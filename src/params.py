@@ -126,12 +126,12 @@ class Params(object):
 
         # Compile Parameters
         self.loss = 'categorical_crossentropy'
-        self.optimizer = 'sgd'
+        self.optimizer = 'rmsprop'
 
         # Training Parameters
         self.model_type = 'LSTM'
         self.batch_size = 256
-        self.num_epoch = 1000
+        self.num_epoch = 100
         self.validation_split = 0.2
         self.shuffle = True
         self.model_path = utils.get_model_path('diaofa.model') + '_' + self.model_type
