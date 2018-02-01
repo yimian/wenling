@@ -40,7 +40,6 @@ $ pip install -r requirements.txt
 - token_path: 储存训练好的 Tokenizer 的路径。注意：对于一类语料来说，Tokenizer 和训练出来的模型必须结对使用，因为句子依靠 Tokenizer 得到 one-hot 的表征，再由此表征在模型的 embedding layer 中转成词向量。
 - models_config：此为在做预测的时候的参数。一个预测器需要同时加载其对应的 Keras 模型和对应的 Token。以 Dict 的形式给出是为了方便构造多个预测器。
 
-    
 ### 训练
 ```
 $ python -m src.train
