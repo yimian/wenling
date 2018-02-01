@@ -21,7 +21,7 @@ change the parameters in `params.py` instead of in training or predicting.
 $ pip install -r requirements.txt
 ```
 
-## Configure the Parameters
+## Configure the Parameters
 Configure the corpus path, model path and other parameters and predicting in training in `params.py`.
 
 ## Train Model
