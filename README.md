@@ -48,3 +48,6 @@ Time (each iteration):
 - CNN-LSTM: 39s
 
 Accuracy: 90% (about) for all models after 10 iterations
+
+## Docs
+[Doc_zh](./doc/Doc_zh.md)
