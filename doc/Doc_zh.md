@@ -45,10 +45,6 @@ $ pip install -r requirements.txt
 $ python -m src.train
 ```
 
-### 预测
-```
-$ python -m src.predict
-```
 
 ### 参考读物
 - [Keras中文文档](https://keras-cn.readthedocs.io/en/latest/)

@@ -30,11 +30,6 @@ Just run the command in root directory of project:
 $ python -m src.train
 ```
 
-## Predict
-```angular2html
-$ python -m src.predict
-```
-
 ## Models Measure
 training set: 26165 samples
 
